@@ -9,6 +9,7 @@
 
 import re
 import requests
+from time import sleep
 from settings import (
     AddPNRSubscription,
     RemovePNRSubscription
@@ -112,8 +113,15 @@ def invoke_operation(dependencies_dict, pnr, operation):
     except requests.exceptions.RequestException as e:
 
         print ('Exception Output: {}'.format(e))
+        sleep(2)
+        print('zzzZzZzZZZZZzzzzZzzZzZZzZZZZzZZ')
+        response = requests.post(
+            url=service_url,
+            data=soap_envelope,
+            cert=certificate
+        )
 
-        # TODO: If request fails sleep(4), and try again: or write pnr to file.
+        return response.text
 
 
 def validate_cprnr(cprnr):

@@ -7,9 +7,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+import json
 import settings
 import xmltodict
 
+from time import sleep
 from cpr_abonnement import pnr_subscription
 
 dependencies = {
@@ -22,30 +24,46 @@ dependencies = {
     'service': settings.SP_SERVICE
 }
 
-"""Available operations."""
-add = settings.AddPNRSubscription
-remove = settings.RemovePNRSubscription
+"""Available operations.
+AddPNRSubscription or RemovePNRSubscription"""
+operation = settings.AddPNRSubscription
 
 """Example for working with a single pnr."""
 # pnr = settings.PNR
 # cpr_abonnement_response_envelope = pnr_subscription(
 #     dependencies_dict=dependencies,
 #     pnr=pnr,
-#     operation=remove
+#     operation=operation
 # )
+# print(cpr_abonnement_response_envelope)
 
 """Example of parsing a single pnr to a dict and extracting the response."""
 # xml_to_dict = xmltodict.parse(cpr_abonnement_response_envelope)
 #
-# operation = 'ns2:{}Response'.format(operation)
+# operation = 'ns3:{}Response'.format(operation)
 #
-# result = xml_to_dict['soap:Envelope']['soap:Body'][
+# response_message = xml_to_dict['soap:Envelope']['soap:Body'][
 #     operation]['ns2:Result']
+# print(response_message)
 
 
 """Example on working with a list of pnr."""
+added = 0
 pnr_file = open(settings.PNR_LIST, 'r')
-for pnr in pnr_list:
-    print(pnr)
+for pnr in pnr_file:
+    cpr_abonnement_response_envelope = pnr_subscription(
+        dependencies_dict=dependencies,
+        pnr=pnr[:10],  # NOTE: Leaving out \n
+        operation=operation
+    )
 
-print(cpr_abonnement_response_envelope)
+    xml_to_dict = xmltodict.parse(cpr_abonnement_response_envelope)
+
+    response_type_element = 'ns3:{}Response'.format(operation)
+    response_message = xml_to_dict['soap:Envelope']['soap:Body'][
+        response_type_element]['ns3:Result']
+
+    if response_message == 'ADDED':
+        added += 1
+
+    print('{} {}'.format(added, response_message))
