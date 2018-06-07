@@ -24,9 +24,9 @@ dependencies = {
     'service': settings.SP_SERVICE
 }
 
-"""Available operations.
+"""Available service operations.
 AddPNRSubscription or RemovePNRSubscription"""
-operation = settings.AddPNRSubscription
+operation = settings.ADD_PNR_SUBSCRIPTION
 
 """Example for working with a single pnr."""
 # pnr = settings.PNR

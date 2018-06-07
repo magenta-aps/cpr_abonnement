@@ -23,9 +23,9 @@ SP_SERVICE_AGREEMENT = os.environ.get('SP_SERVICE_AGREEMENT')
 
 SP_SERVICE = os.environ.get('SP_SERVICE')
 
-AddPNRSubscription = os.environ.get('AddPNRSubscription')
+ADD_PNR_SUBSCRIPTION = os.environ.get('ADD_PNR_SUBSCRIPTION')
 
-RemovePNRSubscription = os.environ.get('RemovePNRSubscription')
+REMOVE_PNR_SUBSCRIPTION = os.environ.get('REMOVE_PNR_SUBSCRIPTION')
 
 PNR = os.environ.get('PNR')
 
