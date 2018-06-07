@@ -22,3 +22,11 @@ SP_USER = os.environ.get('SP_USER')
 SP_SERVICE_AGREEMENT = os.environ.get('SP_SERVICE_AGREEMENT')
 
 SP_SERVICE = os.environ.get('SP_SERVICE')
+
+AddPNRSubscription = os.environ.get('AddPNRSubscription')
+
+RemovePNRSubscription = os.environ.get('RemovePNRSubscription')
+
+PNR = os.environ.get('PNR')
+
+PNR_LIST = os.environ.get('PNR_LIST')

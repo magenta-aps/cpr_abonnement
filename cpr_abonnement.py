@@ -9,7 +9,10 @@
 
 import re
 import requests
-import settings
+from settings import (
+    AddPNRSubscription,
+    RemovePNRSubscription
+)
 
 from jinja2 import Template
 
@@ -35,7 +38,7 @@ def pnr_subscription(dependencies_dict, pnr, operation):
 
         result = None
 
-        if operation == 'AddPNRSubscription':
+        if operation == AddPNRSubscription:
 
             result = invoke_operation(
                 dependencies_dict=dependencies_dict,
@@ -43,7 +46,7 @@ def pnr_subscription(dependencies_dict, pnr, operation):
                 operation=operation
             )
 
-        elif operation == 'RemovePNRSubscription':
+        elif operation == RemovePNRSubscription:
 
             result = invoke_operation(
                 dependencies_dict=dependencies_dict,
@@ -94,12 +97,14 @@ def invoke_operation(dependencies_dict, pnr, operation):
 
     service_url = dependencies_dict.get('service_endpoint')
 
+    certificate = dependencies_dict.get('certificate')
+
     try:
 
-        response = request.post(
-            endpoint=service_url,
-            soap_envelope=soap_envelope,
-            certificate=certificate
+        response = requests.post(
+            url=service_url,
+            data=soap_envelope,
+            cert=certificate
         )
 
         return response.text
@@ -138,7 +143,7 @@ def construct_envelope_SF6002(
     system,
     user,
     service,
-    cprnr,
+    pnr,
     operation,
     parameter_type
 

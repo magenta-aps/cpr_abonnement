@@ -22,24 +22,30 @@ dependencies = {
     'service': settings.SP_SERVICE
 }
 
-test_pnr = '0123456789'
+"""Available operations."""
+add = settings.AddPNRSubscription
+remove = settings.RemovePNRSubscription
+
+"""Example for working with a single pnr."""
+# pnr = settings.PNR
+# cpr_abonnement_response_envelope = pnr_subscription(
+#     dependencies_dict=dependencies,
+#     pnr=pnr,
+#     operation=remove
+# )
+
+"""Example of parsing a single pnr to a dict and extracting the response."""
+# xml_to_dict = xmltodict.parse(cpr_abonnement_response_envelope)
+#
+# operation = 'ns2:{}Response'.format(operation)
+#
+# result = xml_to_dict['soap:Envelope']['soap:Body'][
+#     operation]['ns2:Result']
 
 
-# Choose either between 'AddPNRSubscription' or 'RemovePNRSubscription'.
-operation = 'AddPNRSubscription'
-
-cpr_abonnement_response_envelope = pnr_subscription(
-    dependencies_dict=dependencies,
-    pnr=test_pnr,
-    operation=operation
-)
-
-
-xml_to_dict = xmltodict.parse(cpr_abonnement_response_envelope)
-
-operation = 'ns2:{}Response'.format(operation)
-
-result = xml_to_dict['soap:Envelope']['soap:Body'][
-    operation]['ns2:Result']
+"""Example on working with a list of pnr."""
+pnr_file = open(settings.PNR_LIST, 'r')
+for pnr in pnr_list:
+    print(pnr)
 
 print(cpr_abonnement_response_envelope)
