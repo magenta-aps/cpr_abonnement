@@ -43,7 +43,7 @@ operation = settings.AddPNRSubscription
 # operation = 'ns3:{}Response'.format(operation)
 #
 # response_message = xml_to_dict['soap:Envelope']['soap:Body'][
-#     operation]['ns2:Result']
+#     operation]['ns3:Result']
 # print(response_message)
 
 
