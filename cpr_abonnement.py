@@ -11,8 +11,8 @@ import re
 import requests
 from time import sleep
 from settings import (
-    AddPNRSubscription,
-    RemovePNRSubscription
+    ADD_PNR_SUBSCRIPTION,
+    REMOVE_PNR_SUBSCRIPTION
 )
 
 from jinja2 import Template
@@ -39,7 +39,7 @@ def pnr_subscription(dependencies_dict, pnr, operation):
 
         result = None
 
-        if operation == AddPNRSubscription:
+        if operation == ADD_PNR_SUBSCRIPTION:
 
             result = invoke_operation(
                 dependencies_dict=dependencies_dict,
@@ -47,7 +47,7 @@ def pnr_subscription(dependencies_dict, pnr, operation):
                 operation=operation
             )
 
-        elif operation == RemovePNRSubscription:
+        elif operation == REMOVE_PNR_SUBSCRIPTION:
 
             result = invoke_operation(
                 dependencies_dict=dependencies_dict,
@@ -111,17 +111,12 @@ def invoke_operation(dependencies_dict, pnr, operation):
         return response.text
 
     except requests.exceptions.RequestException as e:
-
+        
+        # TODO: Log exceptions to file, but where
+        # to specify path to log file...? settings.py,
+        # cpr_abonnement(path_to_log)...?
+        # Log message: exceptions and ...?
         print ('Exception Output: {}'.format(e))
-        sleep(2)
-        print('zzzZzZzZZZZZzzzzZzzZzZZzZZZZzZZ')
-        response = requests.post(
-            url=service_url,
-            data=soap_envelope,
-            cert=certificate
-        )
-
-        return response.text
 
 
 def validate_cprnr(cprnr):
