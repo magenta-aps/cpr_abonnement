@@ -8,7 +8,9 @@
               <ns2:UserUUID>{{ user }}</ns2:UserUUID>
               <ns2:ServiceUUID>{{ service }}</ns2:ServiceUUID>
             </ns1:InvocationContext>
+            {% if cpr -%}
             <ns2:{{ parameter_type }}>{{ pnr }}</ns2:{{ parameter_type }}>
+            {%- endif %}
         </ns:{{ operation }}>
     </soapenv:Body>
 </soapenv:Envelope>
