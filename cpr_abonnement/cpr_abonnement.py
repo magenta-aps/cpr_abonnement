@@ -12,10 +12,23 @@ import requests
 from time import sleep
 from settings import (
     ADD_PNR_SUBSCRIPTION,
-    REMOVE_PNR_SUBSCRIPTION
+    REMOVE_PNR_SUBSCRIPTION,
+    GET_PNR_SUBSCRIPTIONS,
 )
 
 from jinja2 import Template
+
+def pnr_all_subscribed(dependencies_dict, operation):
+    """ get all cpr numbers using GetAllFilters
+    """
+    if operation == GET_PNR_SUBSCRIPTIONS:
+        return invoke_operation(
+            dependencies_dict=dependencies_dict,
+            pnr=None,
+            operation=operation
+        )
+    else:
+        return 'Invalid operation. Use \'GetAllFilters\''
 
 
 def pnr_subscription(dependencies_dict, pnr, operation):
