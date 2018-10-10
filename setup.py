@@ -13,7 +13,7 @@ def read(fname):
 
 setup(
     name="cpr_abonnement",
-    version="0.0.1",
+    version=read("VERSION").strip(),
     author="Heini Leander Ovason",
     author_email="heini@magenta-aps.dk",
     description=(
