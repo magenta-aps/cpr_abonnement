@@ -9,13 +9,26 @@
 
 import re
 import requests
-from time import sleep
 from settings import (
     ADD_PNR_SUBSCRIPTION,
-    REMOVE_PNR_SUBSCRIPTION
+    REMOVE_PNR_SUBSCRIPTION,
+    GET_PNR_SUBSCRIPTIONS,
 )
 
 from jinja2 import Template
+
+
+def pnr_all_subscribed(dependencies_dict, operation):
+    """ get all cpr numbers using GetAllFilters
+    """
+    if operation == GET_PNR_SUBSCRIPTIONS:
+        return invoke_operation(
+            dependencies_dict=dependencies_dict,
+            pnr=None,
+            operation=operation
+        )
+    else:
+        return 'Invalid operation. Use \'GetAllFilters\''
 
 
 def pnr_subscription(dependencies_dict, pnr, operation):
@@ -72,7 +85,7 @@ def invoke_operation(dependencies_dict, pnr, operation):
     :param service_uuids: Serviceplatform invocation context uuids
     :param certificate: Path to Serviceplatform certificate
     :param cprnr: String of 10 digits -> r'^\d{10}$'
-    :param operation: 'add' or 'remove'
+    :param operation: 'add' or 'get' or 'remove' - see servicespec
     :type service_uuids: dict
     :type certificate: str
     :type cprnr: str
@@ -81,9 +94,16 @@ def invoke_operation(dependencies_dict, pnr, operation):
     invoked.
     :rtype: str"""
 
-    soap_envelope_template = dependencies_dict.get('soap_request_envelope')
+    if operation in [ADD_PNR_SUBSCRIPTION, REMOVE_PNR_SUBSCRIPTION]:
+        envelope_name = "SUBSCRIPTION"
+        parameter_type = 'PNR'
+    elif operation in [GET_PNR_SUBSCRIPTIONS]:
+        envelope_name = "LIST_SUBSCRIBED"
+        parameter_type = None
+    else:
+        return "Invalid operation, no matching envelope name"
 
-    parameter_type = 'PNR'
+    soap_envelope_template = dependencies_dict.get('soap_request_envelope')
 
     soap_envelope = construct_envelope_SF6002(
         template=soap_envelope_template,
@@ -93,7 +113,8 @@ def invoke_operation(dependencies_dict, pnr, operation):
         service=dependencies_dict.get('service'),
         pnr=pnr,
         operation=operation,
-        parameter_type=parameter_type
+        parameter_type=parameter_type,
+        envelope_name=envelope_name
     )
 
     service_url = dependencies_dict.get('service_endpoint')
@@ -111,12 +132,12 @@ def invoke_operation(dependencies_dict, pnr, operation):
         return response.text
 
     except requests.exceptions.RequestException as e:
-        
+
         # TODO: Log exceptions to file, but where
         # to specify path to log file...? settings.py,
         # cpr_abonnement(path_to_log)...?
         # Log message: exceptions and ...?
-        print ('Exception Output: {}'.format(e))
+        print('Exception Output: {}'.format(e))
 
 
 def validate_cprnr(cprnr):
@@ -148,7 +169,8 @@ def construct_envelope_SF6002(
     service,
     pnr,
     operation,
-    parameter_type
+    parameter_type,
+    envelope_name="SUBSCRIPTION"
 
 
 ):
@@ -167,7 +189,8 @@ def construct_envelope_SF6002(
         user=user,
         service=service,
         operation=operation,
-        parameter_type=parameter_type
+        parameter_type=parameter_type,
+        envelope_name=envelope_name
     )
 
     # service platform requirement.

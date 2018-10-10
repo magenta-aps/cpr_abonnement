@@ -12,7 +12,7 @@ import settings
 import xmltodict
 
 from time import sleep
-from cpr_abonnement import pnr_subscription
+from cpr_abonnement.cpr_abonnement import pnr_subscription
 
 dependencies = {
     'service_endpoint': settings.SP_SERVICE_ENDPOINT,
