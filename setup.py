@@ -5,18 +5,25 @@ from setuptools import setup
 # Used for the long_description.  It's nice, because now 1) we have a top level
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
+
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
 setup(
-    name = "cpr_abonnement",
-    version = "0.0.1",
-    author = "Heini Leander Ovason",
-    author_email = "heini@magenta-aps.dk",
-    description = ("Python integration with Serviceplatformen web service CPR Abonnement. Available operations are 'AddPNRSubscription' and 'RemovePNRSubscription'"),
-    license = "MPL",
-    keywords = "serviceplatformen cpr abonnement sf6002",
-    url = "",
+    name="cpr_abonnement",
+    version="0.0.1",
+    author="Heini Leander Ovason",
+    author_email="heini@magenta-aps.dk",
+    description=(
+        "Python integration with Serviceplatformen "
+        "web service CPR Abonnement. Available operations are "
+        "'AddPNRSubscription', 'RemovePNRSubscription', 'GetAllFilters'"
+    ),
+    license="MPL",
+    keywords="serviceplatformen cpr abonnement sf6002",
+    url="",
     packages=['cpr_abonnement'],
     long_description=read('README.rst'),
     classifiers=[
@@ -41,5 +48,4 @@ setup(
     package_data={
         'cpr_abonnement': ['soap_envelope.xml']
     }
-    
 )
