@@ -9,13 +9,12 @@
 
 import re
 import requests
-from settings import (
-    ADD_PNR_SUBSCRIPTION,
-    REMOVE_PNR_SUBSCRIPTION,
-    GET_PNR_SUBSCRIPTIONS,
-)
-
 from jinja2 import Template
+
+
+ADD_PNR_SUBSCRIPTION = "AddPNRSubscription" 
+REMOVE_PNR_SUBSCRIPTION = "RemovePNRSubscription"
+GET_PNR_SUBSCRIPTIONS = "GetAllFilters" 
 
 
 def pnr_all_subscribed(dependencies_dict, operation):
