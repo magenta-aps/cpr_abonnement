@@ -6,6 +6,7 @@ __pycache__
 *.pem
 *.pfx
 *.epd
+*.csv
 *test*
 python-env
 *.egg-info
